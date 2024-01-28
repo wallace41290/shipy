@@ -5,4 +5,8 @@ export const appRoutes: Route[] = [
     path: 'search',
     loadChildren: () => import('@shipy/search').then((m) => m.searchRoutes),
   },
+  {
+    path: '',
+    redirectTo: '/search',
+  },
 ];
