@@ -1,1 +1,32 @@
-<p>search works!</p>
+
+<ng-container *ngIf="searchResponse$ | async as response">
+  <table>
+    <thead>
+      <tr>
+        <th>Ship</th>
+        <th># Nights</th>
+        <th>Sail Date</th>
+        <th>Stateroom</th>
+        <th>Avg. Price Per Person</th>
+        <th>Taxes</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let cruise of response.data.cruiseSearch.results.cruises">
+        <td>{{ cruise.masterSailing.itinerary.ship.name }}</td>
+        <td>{{ cruise.masterSailing.itinerary.sailingNights }}</td>
+        <td>{{ cruise.lowestPriceSailing.sailDate }}</td>
+        <td>
+          {{
+            cruise.lowestPriceSailing.lowestStateroomClassPrice.stateroomClass
+              .id
+          }}
+        </td>
+        <td>
+          ${{ cruise.lowestPriceSailing.lowestStateroomClassPrice.price.value }}
+        </td>
+        <td>${{ cruise.lowestPriceSailing.taxesAndFees.value }}</td>
+      </tr>
+    </tbody>
+  </table>
+</ng-container>
