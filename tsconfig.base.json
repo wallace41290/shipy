@@ -17,7 +17,8 @@
     "paths": {
       "@shipy/data-access": ["libs/data-access/src/index.ts"],
       "@shipy/search": ["libs/search/src/index.ts"],
-      "@shipy/ui": ["libs/ui/src/index.ts"]
+      "@shipy/ui": ["libs/ui/src/index.ts"],
+      "@shipy/utils": ["libs/utils/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
