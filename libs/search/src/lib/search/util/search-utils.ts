@@ -1,6 +1,6 @@
 import { convertToParamMap, ParamMap, Params } from '@angular/router';
 
-import { SearchParams } from '../models';
+import { Port, SearchParams } from '../models';
 
 /**
  * Deserialize angular router query parameters into a search param object.
@@ -19,4 +19,19 @@ export function deserializeSearchParams(
     // Count
     skip: Number(paramMap.get('skip') ?? 0),
   };
+}
+
+export function deserializePorts(paramValue: string): Port[] {
+  const paramArray = paramValue.split(',');
+  const ports: Port[] = [];
+  for (const param of paramArray) {
+    if (Port.guard(param)) {
+      ports.push(param);
+    }
+  }
+  return ports;
+}
+
+export function serializePorts(ports: Port[]): string {
+  return ports.join(',');
 }
