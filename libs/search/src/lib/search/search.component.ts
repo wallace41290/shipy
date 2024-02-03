@@ -9,13 +9,11 @@ import {
   deserializeSearchParams,
   serializePorts,
   deserializePorts,
-} from './util';
+  Port,
+  SearchParams,
+} from '@shipy/models';
 import { MatTableModule } from '@angular/material/table';
-import { MatSelectModule } from '@angular/material/select';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormsModule } from '@angular/forms';
-import { Port, PortLabels, SearchParams } from './models';
-
+import { SearchFiltersComponent } from '@shipy/ui';
 
 // TODO: dates
 // TODO: pagination
@@ -27,9 +25,7 @@ import { Port, PortLabels, SearchParams } from './models';
   imports: [
     AsyncPipe,
     CommonModule,
-    FormsModule,
-    MatFormFieldModule,
-    MatSelectModule,
+    SearchFiltersComponent,
     MatTableModule,
     NgIf,
   ],
@@ -43,7 +39,6 @@ export class SearchComponent {
   private _router = inject(Router);
 
   selectedPorts: Port[] = [];
-  portLabels = PortLabels;
   ports = Port.values;
 
   displayedColumns: string[] = [

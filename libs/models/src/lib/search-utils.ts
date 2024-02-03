@@ -1,6 +1,7 @@
 import { convertToParamMap, ParamMap, Params } from '@angular/router';
 
-import { Port, SearchParams } from '../models';
+import { Port } from './ports';
+import { SearchParams } from './search-params';
 
 /**
  * Deserialize angular router query parameters into a search param object.

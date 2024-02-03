@@ -1,1 +1,12 @@
-<p>port-filter works!</p>
+<mat-form-field color="accent">
+  <mat-label>Port(s)</mat-label>
+  <mat-select
+    multiple
+    [ngModel]="ports"
+    (ngModelChange)="portsChange.emit($event)"
+  >
+    @for (port of ports; track port) {
+    <mat-option [value]="port">{{ _portLabels[port] }}</mat-option>
+    }
+  </mat-select>
+</mat-form-field>

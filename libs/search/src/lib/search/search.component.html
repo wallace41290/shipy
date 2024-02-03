@@ -1,16 +1,7 @@
-<mat-form-field color="accent">
-  <mat-label>Port(s)</mat-label>
-  <mat-select
-    multiple
-    [ngModel]="selectedPorts"
-    (ngModelChange)="updatePort($event)"
-  >
-    @for (port of ports; track port) {
-    <mat-option [value]="port">{{ portLabels[port] }}</mat-option>
-    }
-  </mat-select>
-</mat-form-field>
-
+<shipy-search-filters
+  [ports]="selectedPorts"
+  (portsChange)="updatePort($event)"
+></shipy-search-filters>
 <table
   mat-table
   [dataSource]="
