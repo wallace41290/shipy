@@ -1,6 +1,10 @@
 <shipy-search-filters
+  [endDate]="endDate"
   [ports]="selectedPorts"
+  [startDate]="startDate"
+  (endDateChange)="endDateChanged($event)"
   (portsChange)="updatePort($event)"
+  (startDateChange)="startDateChanged($event)"
 ></shipy-search-filters>
 <table
   mat-table

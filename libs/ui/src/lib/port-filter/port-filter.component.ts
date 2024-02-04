@@ -16,5 +16,6 @@ export class PortFilterComponent {
   @Input() ports: Port[] = [];
   @Output() portsChange = new EventEmitter<Port[]>();
 
+  _allPorts = Port.values;
   _portLabels = PortLabels;
 }

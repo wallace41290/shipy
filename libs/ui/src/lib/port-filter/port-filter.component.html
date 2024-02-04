@@ -5,7 +5,7 @@
     [ngModel]="ports"
     (ngModelChange)="portsChange.emit($event)"
   >
-    @for (port of ports; track port) {
+    @for (port of _allPorts; track port) {
     <mat-option [value]="port">{{ _portLabels[port] }}</mat-option>
     }
   </mat-select>

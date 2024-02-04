@@ -11,11 +11,13 @@ import {
   deserializePorts,
   Port,
   SearchParams,
+  deserializeDateRange,
+  serializeDateRange,
 } from '@shipy/models';
 import { MatTableModule } from '@angular/material/table';
 import { SearchFiltersComponent } from '@shipy/ui';
+import { getNextMonth } from '@shipy/utils';
 
-// TODO: dates
 // TODO: pagination
 // TODO: num nights
 // TODO: ships
@@ -39,7 +41,8 @@ export class SearchComponent {
   private _router = inject(Router);
 
   selectedPorts: Port[] = [];
-  ports = Port.values;
+  startDate = new Date();
+  endDate = getNextMonth();
 
   displayedColumns: string[] = [
     'ship',
@@ -53,6 +56,9 @@ export class SearchComponent {
     undefined
   );
 
+  private _tempStartDate: Date | undefined;
+  private _tempEndDate: Date | undefined;
+
   constructor() {
     this._route.queryParams
       .pipe(takeUntilDestroyed())
@@ -60,6 +66,9 @@ export class SearchComponent {
         // Sync Form Fields
         const searchParams = deserializeSearchParams(params);
         this.selectedPorts = deserializePorts(searchParams.departurePort);
+        const dateRange = deserializeDateRange(searchParams.startDate);
+        this.startDate = dateRange.start;
+        this.endDate = dateRange.end;
 
         this.search(
           searchParams.departurePort,
@@ -79,6 +88,40 @@ export class SearchComponent {
     this._cruiseSearchService
       .search(departurePort, startDate, count, skip)
       .subscribe((response) => this.searchResponse$.next(response));
+  }
+
+  endDateChanged(endDate: Date) {
+    this._tempEndDate = endDate;
+    this.updateDateRange();
+  }
+
+  startDateChanged(startDate: Date) {
+    this._tempStartDate = startDate;
+    this.updateDateRange();
+  }
+
+  updateDateRange() {
+    if (
+      this._tempStartDate &&
+      this._tempEndDate &&
+      this._tempStartDate < this._tempEndDate
+    ) {
+      const queryParams: Pick<SearchParams, 'startDate'> = {
+        startDate: serializeDateRange({
+          start: this._tempStartDate,
+          end: this._tempEndDate,
+        }),
+      };
+
+      this._tempStartDate = undefined;
+      this._tempEndDate = undefined;
+
+      this._router.navigate([], {
+        relativeTo: this._route,
+        queryParams,
+        queryParamsHandling: 'merge',
+      });
+    }
   }
 
   updatePort(ports: Port[]) {
