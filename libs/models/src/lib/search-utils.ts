@@ -3,6 +3,7 @@ import { convertToParamMap, ParamMap, Params } from '@angular/router';
 import { Port } from './ports';
 import { SearchParams } from './search-params';
 import { DateRange } from './date-range';
+import { NumberOfNights } from './number-of-nights';
 
 /**
  * Deserialize angular router query parameters into a search param object.
@@ -14,6 +15,8 @@ export function deserializeSearchParams(
   return {
     // Departure Port
     departurePort: paramMap.get('departurePort') ?? 'PCN',
+    // Number of Nights
+    nights: paramMap.get('nights') || undefined,
     // Start Date
     startDate: paramMap.get('startDate') ?? '2024-10-01~2024-10-31',
     // Count
@@ -21,6 +24,22 @@ export function deserializeSearchParams(
     // Count
     skip: Number(paramMap.get('skip') ?? 0),
   };
+}
+
+export function deserializeNumberOfNights(
+  paramValue?: string
+): NumberOfNights[] {
+  if(!paramValue){
+    return [];
+  }
+  const paramArray = paramValue.split(',');
+  const numberOfNights: NumberOfNights[] = [];
+  for (const param of paramArray) {
+    if (NumberOfNights.guard(param)) {
+      numberOfNights.push(param);
+    }
+  }
+  return numberOfNights;
 }
 
 export function deserializePorts(paramValue: string): Port[] {
@@ -32,6 +51,12 @@ export function deserializePorts(paramValue: string): Port[] {
     }
   }
   return ports;
+}
+
+export function serializeNumberOfNights(
+  numberOfNights: NumberOfNights[]
+): string | undefined {
+  return numberOfNights?.length ? numberOfNights.join(',') : undefined;
 }
 
 export function serializePorts(ports: Port[]): string {

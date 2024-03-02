@@ -2,6 +2,10 @@
   [ports]="ports"
   (portsChange)="portsChange.emit($event)"
 ></shipy-port-filter>
+<shipy-num-nights-filter
+[numberOfNights]="numberOfNights"
+(numberOfNightsChange)="numberOfNightsChange.emit($event)"
+></shipy-num-nights-filter>
 <shipy-date-range-filter
   [startDate]="startDate"
   [endDate]="endDate"

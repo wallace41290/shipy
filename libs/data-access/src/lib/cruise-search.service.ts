@@ -18,13 +18,20 @@ export class CruiseSearchService {
     departurePort: string,
     startDate: string,
     count: number,
-    skip: number
+    skip: number,
+    nights?: string
   ): Observable<CruiseSearchResponse> {
+    // nights:2~5,6~8,gte12
+    let filters = `departurePort:${departurePort}|startDate:${startDate}`;
+    if (nights?.length) {
+      filters += `|nights:${nights}`;
+    }
+
     const search: CruiseSearchRequest = {
       operationName: Operations.CRUISE_SEARCH_CRUISES,
       query: Queries.CRUISE_SEARCH_CRUISES,
       variables: {
-        filters: `departurePort:${departurePort}|startDate:${startDate}`,
+        filters,
         pagination: {
           count,
           skip,

@@ -1,8 +1,10 @@
 <shipy-search-filters
   [endDate]="endDate"
+  [numberOfNights]="selectedNumNights"
   [ports]="selectedPorts"
   [startDate]="startDate"
   (endDateChange)="endDateChanged($event)"
+  (numberOfNightsChange)="updateNumberOfNights($event)"
   (portsChange)="updatePort($event)"
   (startDateChange)="startDateChanged($event)"
 ></shipy-search-filters>

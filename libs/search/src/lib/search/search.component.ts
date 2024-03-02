@@ -13,14 +13,18 @@ import {
   SearchParams,
   deserializeDateRange,
   serializeDateRange,
+  NumberOfNights,
+  serializeNumberOfNights,
+  deserializeNumberOfNights,
 } from '@shipy/models';
 import { MatTableModule } from '@angular/material/table';
 import { SearchFiltersComponent } from '@shipy/ui';
 import { getNextMonth } from '@shipy/utils';
 
 // TODO: pagination
-// TODO: num nights
 // TODO: ships
+// TODO: sorting
+// TODO: put filters in sidenav?
 @Component({
   selector: 'shipy-search',
   standalone: true,
@@ -40,6 +44,7 @@ export class SearchComponent {
   private _route = inject(ActivatedRoute);
   private _router = inject(Router);
 
+  selectedNumNights: NumberOfNights[] = [];
   selectedPorts: Port[] = [];
   startDate = new Date();
   endDate = getNextMonth();
@@ -66,6 +71,7 @@ export class SearchComponent {
         // Sync Form Fields
         const searchParams = deserializeSearchParams(params);
         this.selectedPorts = deserializePorts(searchParams.departurePort);
+        this.selectedNumNights = deserializeNumberOfNights(searchParams.nights);
         const dateRange = deserializeDateRange(searchParams.startDate);
         this.startDate = dateRange.start;
         this.endDate = dateRange.end;
@@ -74,7 +80,8 @@ export class SearchComponent {
           searchParams.departurePort,
           searchParams.startDate,
           searchParams.count,
-          searchParams.skip
+          searchParams.skip,
+          searchParams.nights
         );
       });
   }
@@ -83,10 +90,11 @@ export class SearchComponent {
     departurePort: string,
     startDate: string,
     count: number,
-    skip: number
+    skip: number,
+    nights?: string
   ) {
     this._cruiseSearchService
-      .search(departurePort, startDate, count, skip)
+      .search(departurePort, startDate, count, skip, nights)
       .subscribe((response) => this.searchResponse$.next(response));
   }
 
@@ -127,6 +135,18 @@ export class SearchComponent {
   updatePort(ports: Port[]) {
     const queryParams: Pick<SearchParams, 'departurePort'> = {
       departurePort: serializePorts(ports),
+    };
+
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  updateNumberOfNights(numberOfNights: NumberOfNights[]) {
+    const queryParams: Pick<SearchParams, 'nights'> = {
+      nights: serializeNumberOfNights(numberOfNights),
     };
 
     this._router.navigate([], {
