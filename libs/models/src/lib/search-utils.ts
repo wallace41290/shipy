@@ -32,7 +32,7 @@ export function deserializeSearchParams(
 export function deserializeNumberOfNights(
   paramValue?: string
 ): NumberOfNights[] {
-  if(!paramValue){
+  if (!paramValue) {
     return [];
   }
   const paramArray = paramValue.split(',');
@@ -45,10 +45,8 @@ export function deserializeNumberOfNights(
   return numberOfNights;
 }
 
-export function deserializeShip(
-  paramValue?: string
-): Ship[] {
-  if(!paramValue){
+export function deserializeShip(paramValue?: string): Ship[] {
+  if (!paramValue) {
     return [];
   }
   const paramArray = paramValue.split(',');
@@ -78,9 +76,7 @@ export function serializeNumberOfNights(
   return numberOfNights?.length ? numberOfNights.join(',') : undefined;
 }
 
-export function serializeShip(
-  ships: Ship[]
-): string | undefined {
+export function serializeShip(ships: Ship[]): string | undefined {
   return ships?.length ? ships.join(',') : undefined;
 }
 

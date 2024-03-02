@@ -50,11 +50,15 @@ export const StringUnion = <UnionType extends string>(
     if (!guard(value)) {
       const actual = JSON.stringify(value);
       const expected = values.map((s) => JSON.stringify(s)).join(' | ');
-      throw new TypeError(`Value '${actual}' is not assignable to type '${expected}'.`);
+      throw new TypeError(
+        `Value '${actual}' is not assignable to type '${expected}'.`
+      );
     }
     return value;
   };
 
   const unionNamespace = { check, guard, values };
-  return Object.freeze(unionNamespace as typeof unionNamespace & { type: UnionType });
+  return Object.freeze(
+    unionNamespace as typeof unionNamespace & { type: UnionType }
+  );
 };

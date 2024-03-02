@@ -19,7 +19,7 @@ export class CruiseSearchService {
     startDate: string,
     count: number,
     skip: number,
-    ship?:string,
+    ship?: string,
     nights?: string
   ): Observable<CruiseSearchResponse> {
     // nights:2~5,6~8,gte12
