@@ -25,8 +25,6 @@ import { SearchFiltersComponent } from '@shipy/ui';
 import { getNextMonth } from '@shipy/utils';
 
 // TODO: pagination
-// TODO: ships
-// TODO: ship category
 // TODO: sorting
 // TODO: put filters in sidenav?
 @Component({

@@ -78,31 +78,31 @@ export const SHIP_CLASSES: ReadonlyArray<ShipClass> = [
     ships: ['EN', 'GR', 'RH', 'VI'],
   },
   {
-    label: 'Voyager class',
+    label: 'Voyager Class',
     ships: ['AD', 'EX', 'MA', 'NV', 'VY'],
   },
   {
-    label: 'Radiance class',
+    label: 'Radiance Class',
 
     ships: ['BR', 'JW', 'RD', 'SR'],
   },
   {
-    label: 'Freedom class',
+    label: 'Freedom Class',
 
     ships: ['FR', 'ID', 'LB'],
   },
   {
-    label: 'Oasis class',
+    label: 'Oasis Class',
 
     ships: ['AL', 'HM', 'OA', 'SY', 'UT', 'WN'],
   },
   {
-    label: 'Quantum class',
+    label: 'Quantum Class',
 
     ships: ['AN', 'OV', 'OY', 'QN', 'SC'],
   },
   {
-    label: 'Icon class',
+    label: 'Icon Class',
 
     ships: ['IC', 'ST'],
   },
