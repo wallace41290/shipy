@@ -66,3 +66,44 @@ export const ShipLabels: Record<Ship, string> = {
   VY: 'Voyager',
   WN: 'Wonder',
 };
+
+export interface ShipClass {
+  label: string;
+  ships: ReadonlyArray<Ship>;
+}
+
+export const SHIP_CLASSES: ReadonlyArray<ShipClass> = [
+  {
+    label: 'Vision Class',
+    ships: ['EN', 'GR', 'RH', 'VI'],
+  },
+  {
+    label: 'Voyager class',
+    ships: ['AD', 'EX', 'MA', 'NV', 'VY'],
+  },
+  {
+    label: 'Radiance class',
+
+    ships: ['BR', 'JW', 'RD', 'SR'],
+  },
+  {
+    label: 'Freedom class',
+
+    ships: ['FR', 'ID', 'LB'],
+  },
+  {
+    label: 'Oasis class',
+
+    ships: ['AL', 'HM', 'OA', 'SY', 'UT', 'WN'],
+  },
+  {
+    label: 'Quantum class',
+
+    ships: ['AN', 'OV', 'OY', 'QN', 'SC'],
+  },
+  {
+    label: 'Icon class',
+
+    ships: ['IC', 'ST'],
+  },
+] as const;

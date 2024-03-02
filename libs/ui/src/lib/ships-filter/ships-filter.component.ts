@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule } from '@angular/forms';
-import { Ship, ShipLabels } from '@shipy/models';
+import { Ship, SHIP_CLASSES, ShipLabels } from '@shipy/models';
 
 @Component({
   selector: 'shipy-ships-filter',
@@ -23,6 +23,6 @@ export class ShipsFilterComponent {
   @Input() ships: Ship[] = [];
   @Output() shipsChange = new EventEmitter<Ship[]>();
 
-  _allShips = Ship.values;
+  _allShipClasses = SHIP_CLASSES;
   _shipLabels = ShipLabels;
 }
