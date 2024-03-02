@@ -20,13 +20,14 @@ import {
   deserializeShip,
   serializeShip,
 } from '@shipy/models';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { SearchFiltersComponent } from '@shipy/ui';
 import { getNextMonth } from '@shipy/utils';
 
-// TODO: pagination
 // TODO: sorting
 // TODO: put filters in sidenav?
+// TODO: loader (next page)
 @Component({
   selector: 'shipy-search',
   standalone: true,
@@ -34,6 +35,7 @@ import { getNextMonth } from '@shipy/utils';
     AsyncPipe,
     CommonModule,
     SearchFiltersComponent,
+    MatPaginatorModule,
     MatTableModule,
     NgIf,
   ],
@@ -46,11 +48,13 @@ export class SearchComponent {
   private _route = inject(ActivatedRoute);
   private _router = inject(Router);
 
+  endDate = getNextMonth();
+  pageIndex = 0;
+  pageSize = 10;
   selectedNumNights: NumberOfNights[] = [];
   selectedPorts: Port[] = [];
   selectedShips: Ship[] = [];
   startDate = new Date();
-  endDate = getNextMonth();
 
   displayedColumns: string[] = [
     'ship',
@@ -73,6 +77,8 @@ export class SearchComponent {
       .subscribe((params: Params) => {
         // Sync Form Fields
         const searchParams = deserializeSearchParams(params);
+        this.pageSize = searchParams.count;
+        this.pageIndex = searchParams.skip / searchParams.count;
         this.selectedPorts = deserializePorts(searchParams.departurePort);
         this.selectedNumNights = deserializeNumberOfNights(searchParams.nights);
         this.selectedShips = deserializeShip(searchParams.ship);
@@ -141,6 +147,19 @@ export class SearchComponent {
   updatePort(ports: Port[]) {
     const queryParams: Pick<SearchParams, 'departurePort'> = {
       departurePort: serializePorts(ports),
+    };
+
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  handlePageChange(pageEvent: PageEvent) {
+    const queryParams: Pick<SearchParams, 'count' | 'skip'> = {
+      count: pageEvent.pageSize,
+      skip: pageEvent.pageIndex * pageEvent.pageSize,
     };
 
     this._router.navigate([], {
