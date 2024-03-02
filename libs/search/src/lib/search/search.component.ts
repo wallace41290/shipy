@@ -1,8 +1,11 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  inject,
+  signal,
+} from '@angular/core';
 import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
-import { CruiseSearchService } from '@shipy/data-access';
-import { BehaviorSubject } from 'rxjs';
-import { CruiseSearchResponse } from '@shipy/data-access';
+import { Cruise, CruiseSearchService } from '@shipy/data-access';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
@@ -20,6 +23,7 @@ import {
   deserializeShip,
   serializeShip,
 } from '@shipy/models';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { SearchFiltersComponent } from '@shipy/ui';
@@ -27,17 +31,17 @@ import { getNextMonth } from '@shipy/utils';
 
 // TODO: sorting
 // TODO: put filters in sidenav?
-// TODO: loader (next page)
 @Component({
   selector: 'shipy-search',
   standalone: true,
   imports: [
     AsyncPipe,
     CommonModule,
-    SearchFiltersComponent,
     MatPaginatorModule,
+    MatProgressSpinnerModule,
     MatTableModule,
     NgIf,
+    SearchFiltersComponent,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
@@ -64,9 +68,10 @@ export class SearchComponent {
     'avgPrice',
     'taxes',
   ];
-  searchResponse$ = new BehaviorSubject<CruiseSearchResponse | undefined>(
-    undefined
-  );
+
+  $loading = signal(true);
+  $results = signal<Cruise[]>([]);
+  $total = signal(0);
 
   private _tempStartDate: Date | undefined;
   private _tempEndDate: Date | undefined;
@@ -97,6 +102,24 @@ export class SearchComponent {
       });
   }
 
+  endDateChanged(endDate: Date) {
+    this._tempEndDate = endDate;
+    this.updateDateRange();
+  }
+
+  pageChanged(pageEvent: PageEvent) {
+    const queryParams: Pick<SearchParams, 'count' | 'skip'> = {
+      count: pageEvent.pageSize,
+      skip: pageEvent.pageIndex * pageEvent.pageSize,
+    };
+
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
   search(
     departurePort: string,
     startDate: string,
@@ -105,14 +128,14 @@ export class SearchComponent {
     ship?: string,
     nights?: string
   ) {
+    this.$loading.set(true);
     this._cruiseSearchService
       .search(departurePort, startDate, count, skip, ship, nights)
-      .subscribe((response) => this.searchResponse$.next(response));
-  }
-
-  endDateChanged(endDate: Date) {
-    this._tempEndDate = endDate;
-    this.updateDateRange();
+      .subscribe((response) => {
+        this.$results.set(response.data.cruiseSearch.results.cruises);
+        this.$total.set(response.data.cruiseSearch.results.total);
+        this.$loading.set(false);
+      });
   }
 
   startDateChanged(startDate: Date) {
@@ -144,6 +167,18 @@ export class SearchComponent {
     }
   }
 
+  updateNumberOfNights(numberOfNights: NumberOfNights[]) {
+    const queryParams: Pick<SearchParams, 'nights'> = {
+      nights: serializeNumberOfNights(numberOfNights),
+    };
+
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
   updatePort(ports: Port[]) {
     const queryParams: Pick<SearchParams, 'departurePort'> = {
       departurePort: serializePorts(ports),
@@ -156,34 +191,9 @@ export class SearchComponent {
     });
   }
 
-  handlePageChange(pageEvent: PageEvent) {
-    const queryParams: Pick<SearchParams, 'count' | 'skip'> = {
-      count: pageEvent.pageSize,
-      skip: pageEvent.pageIndex * pageEvent.pageSize,
-    };
-
-    this._router.navigate([], {
-      relativeTo: this._route,
-      queryParams,
-      queryParamsHandling: 'merge',
-    });
-  }
-
   updateShips(ships: Ship[]) {
     const queryParams: Pick<SearchParams, 'ship'> = {
       ship: serializeShip(ships),
-    };
-
-    this._router.navigate([], {
-      relativeTo: this._route,
-      queryParams,
-      queryParamsHandling: 'merge',
-    });
-  }
-
-  updateNumberOfNights(numberOfNights: NumberOfNights[]) {
-    const queryParams: Pick<SearchParams, 'nights'> = {
-      nights: serializeNumberOfNights(numberOfNights),
     };
 
     this._router.navigate([], {
