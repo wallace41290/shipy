@@ -1,1 +1,13 @@
-<p>ships-filter works!</p>
+<mat-form-field color="accent">
+    <mat-label>Ship(s)</mat-label>
+    <mat-select
+      multiple
+      [ngModel]="ships"
+      (ngModelChange)="shipsChange.emit($event)"
+    >
+      @for (ship of _allShips; track ship) {
+      <mat-option [value]="ship">{{ _shipLabels[ship] }}</mat-option>
+      }
+    </mat-select>
+    <mat-icon matSuffix>directions_boat</mat-icon>
+  </mat-form-field>

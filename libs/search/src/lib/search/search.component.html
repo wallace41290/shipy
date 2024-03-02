@@ -2,10 +2,12 @@
   [endDate]="endDate"
   [numberOfNights]="selectedNumNights"
   [ports]="selectedPorts"
+  [ships]="selectedShips"
   [startDate]="startDate"
   (endDateChange)="endDateChanged($event)"
   (numberOfNightsChange)="updateNumberOfNights($event)"
   (portsChange)="updatePort($event)"
+  (shipsChange)="updateShips($event)"
   (startDateChange)="startDateChanged($event)"
 ></shipy-search-filters>
 <table

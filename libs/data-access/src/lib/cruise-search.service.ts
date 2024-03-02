@@ -19,12 +19,16 @@ export class CruiseSearchService {
     startDate: string,
     count: number,
     skip: number,
+    ship?:string,
     nights?: string
   ): Observable<CruiseSearchResponse> {
     // nights:2~5,6~8,gte12
     let filters = `departurePort:${departurePort}|startDate:${startDate}`;
     if (nights?.length) {
       filters += `|nights:${nights}`;
+    }
+    if (ship?.length) {
+      filters += `|ship:${ship}`;
     }
 
     const search: CruiseSearchRequest = {

@@ -16,6 +16,9 @@ import {
   NumberOfNights,
   serializeNumberOfNights,
   deserializeNumberOfNights,
+  Ship,
+  deserializeShip,
+  serializeShip,
 } from '@shipy/models';
 import { MatTableModule } from '@angular/material/table';
 import { SearchFiltersComponent } from '@shipy/ui';
@@ -23,6 +26,7 @@ import { getNextMonth } from '@shipy/utils';
 
 // TODO: pagination
 // TODO: ships
+// TODO: ship category
 // TODO: sorting
 // TODO: put filters in sidenav?
 @Component({
@@ -46,6 +50,7 @@ export class SearchComponent {
 
   selectedNumNights: NumberOfNights[] = [];
   selectedPorts: Port[] = [];
+  selectedShips: Ship[] = [];
   startDate = new Date();
   endDate = getNextMonth();
 
@@ -72,6 +77,7 @@ export class SearchComponent {
         const searchParams = deserializeSearchParams(params);
         this.selectedPorts = deserializePorts(searchParams.departurePort);
         this.selectedNumNights = deserializeNumberOfNights(searchParams.nights);
+        this.selectedShips = deserializeShip(searchParams.ship);
         const dateRange = deserializeDateRange(searchParams.startDate);
         this.startDate = dateRange.start;
         this.endDate = dateRange.end;
@@ -81,6 +87,7 @@ export class SearchComponent {
           searchParams.startDate,
           searchParams.count,
           searchParams.skip,
+          searchParams.ship,
           searchParams.nights
         );
       });
@@ -91,10 +98,11 @@ export class SearchComponent {
     startDate: string,
     count: number,
     skip: number,
+    ship?: string,
     nights?: string
   ) {
     this._cruiseSearchService
-      .search(departurePort, startDate, count, skip, nights)
+      .search(departurePort, startDate, count, skip, ship, nights)
       .subscribe((response) => this.searchResponse$.next(response));
   }
 
@@ -135,6 +143,18 @@ export class SearchComponent {
   updatePort(ports: Port[]) {
     const queryParams: Pick<SearchParams, 'departurePort'> = {
       departurePort: serializePorts(ports),
+    };
+
+    this._router.navigate([], {
+      relativeTo: this._route,
+      queryParams,
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  updateShips(ships: Ship[]) {
+    const queryParams: Pick<SearchParams, 'ship'> = {
+      ship: serializeShip(ships),
     };
 
     this._router.navigate([], {
