@@ -1,0 +1,11 @@
+<button
+  mat-icon-button
+  (click)="themeService.toggleTheme()"
+  [matTooltip]="
+    themeService.$darkMode() ? 'Switch to light theme' : 'Switch to dark theme'
+  "
+>
+  <mat-icon>{{
+    themeService.$darkMode() ? 'wb_sunny' : 'nights_stay'
+  }}</mat-icon>
+</button>
