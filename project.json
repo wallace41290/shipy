@@ -18,8 +18,9 @@
         "inlineStyleLanguage": "scss",
         "assets": ["./src/favicon.ico", "./src/assets"],
         "styles": [
-          "@angular/material/prebuilt-themes/purple-green.css",
-          "./src/styles.scss"
+          "./src/scss/reset.scss",
+          "./src/scss/styles.scss",
+          "./src/scss/theme.scss"
         ],
         "scripts": []
       },

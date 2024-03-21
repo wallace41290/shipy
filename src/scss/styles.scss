@@ -1,0 +1,17 @@
+html,
+body {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.shipy-rounded-button.mat-mdc-outlined-button,
+.shipy-rounded-button.mat-mdc-unelevated-button {
+  border-radius: 50px;
+  height: 40px;
+  padding: 0 24px 0 16px;
+}
