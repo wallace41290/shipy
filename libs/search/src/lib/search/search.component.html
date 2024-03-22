@@ -1,80 +1,150 @@
-<shipy-search-filters
-  [endDate]="endDate"
-  [numberOfNights]="selectedNumNights"
-  [ports]="selectedPorts"
-  [ships]="selectedShips"
-  [startDate]="startDate"
-  (endDateChange)="endDateChanged($event)"
-  (numberOfNightsChange)="updateNumberOfNights($event)"
-  (portsChange)="updatePort($event)"
-  (shipsChange)="updateShips($event)"
-  (startDateChange)="startDateChanged($event)"
-></shipy-search-filters>
-<div class="container">
-  @if ($loading()) {
-  <div class="loading-shade">
-    <mat-spinner color="accent"></mat-spinner>
-  </div>
-  }
-  <div class="table-container">
-    <table mat-table recycleRows [dataSource]="$results()">
-      <ng-container matColumnDef="ship">
-        <th mat-header-cell *matHeaderCellDef>Ship</th>
-        <td mat-cell *matCellDef="let cruise">
-          {{ cruise.masterSailing.itinerary.ship.name }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="numNights">
-        <th mat-header-cell *matHeaderCellDef># Nights</th>
-        <td mat-cell *matCellDef="let cruise">
-          {{ cruise.masterSailing.itinerary.sailingNights }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="sailDate">
-        <th mat-header-cell *matHeaderCellDef>Sail Date</th>
-        <td mat-cell *matCellDef="let cruise">
-          {{ cruise.lowestPriceSailing.sailDate }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="stateroom">
-        <th mat-header-cell *matHeaderCellDef>Stateroom</th>
-        <td mat-cell *matCellDef="let cruise">
-          {{
-            cruise.lowestPriceSailing.lowestStateroomClassPrice.stateroomClass
-              .id
-          }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="avgPrice">
-        <th mat-header-cell *matHeaderCellDef>Avg. Price Per Person</th>
-        <td mat-cell *matCellDef="let cruise">
-          ${{ cruise.lowestPriceSailing.lowestStateroomClassPrice.price.value }}
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="taxes">
-        <th mat-header-cell *matHeaderCellDef>Taxes</th>
-        <td mat-cell *matCellDef="let cruise">
-          ${{ cruise.lowestPriceSailing.taxesAndFees.value }}
-        </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
-  <mat-paginator
-    aria-label="Select page"
-    showFirstLastButtons
-    [length]="$total()"
-    [pageIndex]="pageIndex"
-    [pageSize]="pageSize"
-    [pageSizeOptions]="[5, 10, 25, 100]"
-    (page)="pageChanged($event)"
+<mat-sidenav-container
+  class="app-sidenav-container"
+  [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+>
+  <mat-sidenav
+    #sidenav
+    fixedTopGap="56"
+    opened
+    [fixedInViewport]="mobileQuery.matches"
+    [mode]="mobileQuery.matches ? 'over' : 'side'"
   >
-  </mat-paginator>
-</div>
+    <section class="drawer-reset">
+      <a
+        color="primary"
+        mat-button
+        routerLink="./"
+        [disabled]="!$hasQueryParams()"
+      >
+        <mat-icon>refresh</mat-icon>
+        Reset All
+      </a>
+      <button
+        color="primary"
+        mat-icon-button
+        matTooltip="Close"
+        (click)="sidenav.close()"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </section>
+    <div class="drawer-title">
+      <mat-icon aria-hidden="true">tune</mat-icon>
+      <h2 class="mat-subtitle-2">Filters</h2>
+    </div>
+    <shipy-search-filters
+      [endDate]="endDate"
+      [numberOfNights]="selectedNumNights"
+      [ports]="selectedPorts"
+      [ships]="selectedShips"
+      [startDate]="startDate"
+      (endDateChange)="endDateChanged($event)"
+      (numberOfNightsChange)="updateNumberOfNights($event)"
+      (portsChange)="updatePort($event)"
+      (shipsChange)="updateShips($event)"
+      (startDateChange)="startDateChanged($event)"
+    ></shipy-search-filters>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="page-content">
+      <div class="results-controls">
+        @if(sidenav.opened){
+        <button
+          class="shipy-rounded-button"
+          color="primary"
+          mat-flat-button
+          (click)="sidenav.toggle()"
+        >
+          <mat-icon>close</mat-icon>
+          Filters
+        </button>
+        }@else {
+        <button
+          class="shipy-rounded-button shipy-outline-button"
+          color="primary"
+          mat-stroked-button
+          (click)="sidenav.toggle()"
+        >
+          <mat-icon>tune</mat-icon>
+          Filters
+        </button>
+        }
+      </div>
+
+      <div class="results-container">
+        @if ($loading()) {
+        <div class="loading-shade">
+          <mat-spinner color="primary"></mat-spinner>
+        </div>
+        }
+        <div class="table-container">
+          <table mat-table recycleRows [dataSource]="$results()">
+            <ng-container matColumnDef="ship">
+              <th mat-header-cell *matHeaderCellDef>Ship</th>
+              <td mat-cell *matCellDef="let cruise">
+                {{ cruise.masterSailing.itinerary.ship.name }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="numNights">
+              <th mat-header-cell *matHeaderCellDef># Nights</th>
+              <td mat-cell *matCellDef="let cruise">
+                {{ cruise.masterSailing.itinerary.sailingNights }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sailDate">
+              <th mat-header-cell *matHeaderCellDef>Sail Date</th>
+              <td mat-cell *matCellDef="let cruise">
+                {{ cruise.lowestPriceSailing.sailDate }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="stateroom">
+              <th mat-header-cell *matHeaderCellDef>Stateroom</th>
+              <td mat-cell *matCellDef="let cruise">
+                {{
+                  cruise.lowestPriceSailing.lowestStateroomClassPrice
+                    .stateroomClass.id
+                }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="avgPrice">
+              <th mat-header-cell *matHeaderCellDef>Avg. Price Per Person</th>
+              <td mat-cell *matCellDef="let cruise">
+                ${{
+                  cruise.lowestPriceSailing.lowestStateroomClassPrice.price
+                    .value
+                }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="taxes">
+              <th mat-header-cell *matHeaderCellDef>Taxes</th>
+              <td mat-cell *matCellDef="let cruise">
+                ${{ cruise.lowestPriceSailing.taxesAndFees.value }}
+              </td>
+            </ng-container>
+
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedColumns; sticky: true"
+            ></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+        </div>
+        <mat-paginator
+          aria-label="Select page"
+          showFirstLastButtons
+          [length]="$total()"
+          [pageIndex]="pageIndex"
+          [pageSize]="pageSize"
+          [pageSizeOptions]="[5, 10, 25, 100]"
+          (page)="pageChanged($event)"
+        >
+        </mat-paginator>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

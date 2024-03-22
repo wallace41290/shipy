@@ -1,12 +1,14 @@
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  OnDestroy,
   inject,
   signal,
 } from '@angular/core';
 import { AsyncPipe, CommonModule, NgIf } from '@angular/common';
 import { Cruise, CruiseSearchService } from '@shipy/data-access';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router, RouterModule } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import {
   deserializeSearchParams,
@@ -28,6 +30,10 @@ import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
 import { SearchFiltersComponent } from '@shipy/ui';
 import { getNextMonth } from '@shipy/utils';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 // TODO: sorting
 // TODO: put filters in sidenav?
@@ -37,22 +43,29 @@ import { getNextMonth } from '@shipy/utils';
   imports: [
     AsyncPipe,
     CommonModule,
+    MatButtonModule,
+    MatIconModule,
     MatPaginatorModule,
+    MatSidenavModule,
     MatProgressSpinnerModule,
     MatTableModule,
     NgIf,
     SearchFiltersComponent,
+    RouterModule,
   ],
   templateUrl: './search.component.html',
   styleUrl: './search.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent {
+export class SearchComponent implements OnDestroy {
+  private _changeDetectorRef = inject(ChangeDetectorRef);
   private _cruiseSearchService = inject(CruiseSearchService);
+  private _media = inject(MediaMatcher);
   private _route = inject(ActivatedRoute);
   private _router = inject(Router);
 
   endDate = getNextMonth();
+  mobileQuery: MediaQueryList;
   pageIndex = 0;
   pageSize = 10;
   selectedNumNights: NumberOfNights[] = [];
@@ -69,10 +82,12 @@ export class SearchComponent {
     'taxes',
   ];
 
+  $hasQueryParams = signal(false);
   $loading = signal(true);
   $results = signal<Cruise[]>([]);
   $total = signal(0);
 
+  private _mobileQueryListener: () => void;
   private _tempStartDate: Date | undefined;
   private _tempEndDate: Date | undefined;
 
@@ -80,6 +95,8 @@ export class SearchComponent {
     this._route.queryParams
       .pipe(takeUntilDestroyed())
       .subscribe((params: Params) => {
+        this.$hasQueryParams.set(!!Object.keys(params).length);
+
         // Sync Form Fields
         const searchParams = deserializeSearchParams(params);
         this.pageSize = searchParams.count;
@@ -100,11 +117,19 @@ export class SearchComponent {
           searchParams.nights
         );
       });
+
+    this.mobileQuery = this._media.matchMedia('(max-width: 600px)');
+    this._mobileQueryListener = () => this._changeDetectorRef.detectChanges();
+    this.mobileQuery.addEventListener('change', this._mobileQueryListener);
   }
 
   endDateChanged(endDate: Date) {
     this._tempEndDate = endDate;
     this.updateDateRange();
+  }
+
+  ngOnDestroy(): void {
+    this.mobileQuery.removeEventListener('change', this._mobileQueryListener);
   }
 
   pageChanged(pageEvent: PageEvent) {

@@ -1,17 +1,48 @@
-shipy-search-filters {
-  display: flex;
-  padding: 0.5rem;
-  gap: 1rem;
+mat-sidenav-container {
+  height: 100%;
 }
 
-.container {
+mat-sidenav {
+  padding: 20px 24px;
+
+  .drawer-reset {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .drawer-title {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    margin-bottom: 32px;
+    mat-icon {
+      margin-right: 16px;
+    }
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+
+  shipy-search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+.results-controls {
+  margin: 24px 0;
+}
+
+.results-container {
   position: relative;
 }
 
 .table-container {
   position: relative;
   min-height: 300px;
-  max-height: calc(100vh - 64px - 150px);
+  max-height: calc(100vh - 64px - 150px); // TODO: fix
   overflow: auto;
 }
 
