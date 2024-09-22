@@ -5,12 +5,6 @@ mat-sidenav-container {
 mat-sidenav {
   padding: 20px 24px;
 
-  .drawer-reset {
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-  }
-
   .drawer-title {
     display: flex;
     align-items: center;
@@ -31,30 +25,13 @@ mat-sidenav {
   }
 }
 
-.results-controls {
+shipy-filters-toggle {
+  display: block;
   margin: 24px 0;
 }
 
-.results-container {
-  position: relative;
-}
-
-.table-container {
-  position: relative;
-  min-height: 300px;
-  max-height: calc(100vh - 64px - 150px); // TODO: fix
-  overflow: auto;
-}
-
-.loading-shade {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 56px;
-  right: 0;
-  background: rgba(0, 0, 0, 0.15);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+shipy-search-results {
+  display: block;
+  // 100vh - mat-toolbar - filter toggle
+  max-height: calc(100vh - 64px - 88px);
 }

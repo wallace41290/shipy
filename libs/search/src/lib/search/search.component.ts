@@ -25,37 +25,39 @@ import {
   deserializeShip,
   serializeShip,
 } from '@shipy/models';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatTableModule } from '@angular/material/table';
 import { SearchFiltersComponent } from '@shipy/ui';
 import { getNextMonth } from '@shipy/utils';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { FiltersResetComponent } from '../filters-reset/filters-reset.component';
+import { FiltersToggleComponent } from '../filters-toggle/filters-toggle.component';
+import { SearchResultsComponent } from '../search-results/search-results.component';
+import { PageEvent } from '@angular/material/paginator';
 
 // TODO: sorting
-// TODO: put filters in sidenav?
 @Component({
   selector: 'shipy-search',
   standalone: true,
+  templateUrl: './search.component.html',
+  styleUrl: './search.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     AsyncPipe,
     CommonModule,
     MatButtonModule,
     MatIconModule,
-    MatPaginatorModule,
+
     MatSidenavModule,
-    MatProgressSpinnerModule,
-    MatTableModule,
+
     NgIf,
     SearchFiltersComponent,
     RouterModule,
+    FiltersResetComponent,
+    FiltersToggleComponent,
+    SearchResultsComponent,
   ],
-  templateUrl: './search.component.html',
-  styleUrl: './search.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent implements OnDestroy {
   private _changeDetectorRef = inject(ChangeDetectorRef);
@@ -66,24 +68,16 @@ export class SearchComponent implements OnDestroy {
 
   endDate = getNextMonth();
   mobileQuery: MediaQueryList;
-  pageIndex = 0;
-  pageSize = 10;
+
   selectedNumNights: NumberOfNights[] = [];
   selectedPorts: Port[] = [];
   selectedShips: Ship[] = [];
   startDate = new Date();
 
-  displayedColumns: string[] = [
-    'ship',
-    'numNights',
-    'sailDate',
-    'stateroom',
-    'avgPrice',
-    'taxes',
-  ];
-
   $hasQueryParams = signal(false);
   $loading = signal(true);
+  $pageIndex = signal(0);
+  $pageSize = signal(10);
   $results = signal<Cruise[]>([]);
   $total = signal(0);
 
@@ -99,8 +93,8 @@ export class SearchComponent implements OnDestroy {
 
         // Sync Form Fields
         const searchParams = deserializeSearchParams(params);
-        this.pageSize = searchParams.count;
-        this.pageIndex = searchParams.skip / searchParams.count;
+        this.$pageSize.set(searchParams.count);
+        this.$pageIndex.set(searchParams.skip / searchParams.count);
         this.selectedPorts = deserializePorts(searchParams.departurePort);
         this.selectedNumNights = deserializeNumberOfNights(searchParams.nights);
         this.selectedShips = deserializeShip(searchParams.ship);
