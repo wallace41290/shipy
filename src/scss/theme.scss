@@ -2,6 +2,7 @@
 @use './palette';
 @use './typography';
 @use '../app/app-theme' as appTheme;
+@use '../../libs/search/src/index' as search;
 
 @include mat.core();
 
@@ -34,8 +35,10 @@ $dark-theme: mat.define-dark-theme(
 @include mat.typography-hierarchy(typography.$config);
 @include mat.all-component-themes($light-theme);
 @include appTheme.theme($light-theme);
+@include search.search-results-color($light-theme);
 
 .dark-theme {
   @include mat.all-component-colors($dark-theme);
   @include appTheme.theme($dark-theme);
+  @include search.search-results-color($dark-theme);
 }
