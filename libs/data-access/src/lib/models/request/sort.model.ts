@@ -1,3 +1,3 @@
 export interface CruiseSort {
-    by:string;
+  by: string;
 }

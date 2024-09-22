@@ -1,5 +1,5 @@
-import { Data } from "./data.model";
+import { Data } from './data.model';
 
 export interface CruiseSearchResponse {
-    data:Data;
+  data: Data;
 }

@@ -1,7 +1,4 @@
-
-
 export interface SailingTaxesAndFees {
-    __typename: string;
-    value: number;
-
+  __typename: string;
+  value: number;
 }

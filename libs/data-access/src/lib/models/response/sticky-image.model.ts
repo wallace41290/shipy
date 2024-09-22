@@ -1,10 +1,7 @@
-import { Meta } from "./meta.model";
-
-
+import { Meta } from './meta.model';
 
 export interface StickyImage {
-    __typename: string;
-    meta: Meta;
-    path: string;
-
+  __typename: string;
+  meta: Meta;
+  path: string;
 }

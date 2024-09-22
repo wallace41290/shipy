@@ -1,7 +1,4 @@
-
-
 export interface StateroomClassPricingPrice {
-    __typename: string;
-    value: number | number;
-
+  __typename: string;
+  value: number | number;
 }

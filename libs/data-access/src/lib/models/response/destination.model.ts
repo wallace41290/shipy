@@ -1,8 +1,5 @@
-
-
 export interface Destination {
-    __typename: string;
-    code: string;
-    name: string;
-
+  __typename: string;
+  code: string;
+  name: string;
 }
