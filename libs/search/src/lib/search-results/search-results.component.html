@@ -5,7 +5,15 @@
   </div>
   }
   <div class="table-container">
-    <table mat-table recycleRows [dataSource]="results">
+    <table
+      mat-table
+      matSort
+      recycleRows
+      [dataSource]="results"
+      [matSortActive]="sortBy"
+      [matSortDirection]="sortOrder | toSortDirection"
+      (matSortChange)="sort($event)"
+    >
       <ng-container matColumnDef="ship">
         <th mat-header-cell *matHeaderCellDef>Ship</th>
         <td mat-cell *matCellDef="let cruise">
@@ -14,7 +22,14 @@
       </ng-container>
 
       <ng-container matColumnDef="numNights">
-        <th mat-header-cell *matHeaderCellDef># Nights</th>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header="NIGHTS"
+          sortActionDescription="Sort by number of nights"
+        >
+          # Nights
+        </th>
         <td mat-cell *matCellDef="let cruise">
           {{ cruise.masterSailing.itinerary.sailingNights }}
         </td>
@@ -38,7 +53,14 @@
       </ng-container>
 
       <ng-container matColumnDef="avgPrice">
-        <th mat-header-cell *matHeaderCellDef>Avg. Price Per Person</th>
+        <th
+          *matHeaderCellDef
+          mat-header-cell
+          mat-sort-header="PRICE"
+          sortActionDescription="Sort by average price"
+        >
+          Avg. Price Per Person
+        </th>
         <td mat-cell *matCellDef="let cruise">
           ${{ cruise.lowestPriceSailing.lowestStateroomClassPrice.price.value }}
         </td>
