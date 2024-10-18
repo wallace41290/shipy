@@ -2,7 +2,7 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme) {
-  $config: mat.get-color-config($theme);
+  $config: mat.m2-get-color-config($theme);
   $primary: map.get($config, primary);
   $accent: map.get($config, accent);
   .shipy-outline-button.mat-mdc-outlined-button:not([disabled]) {
@@ -16,8 +16,8 @@
 }
 
 @mixin _shipy-outline-button-palette($themePalette) {
-  border-color: mat.get-color-from-palette($themePalette, default);
-  color: mat.get-color-from-palette($themePalette, default);
+  border-color: mat.m2-get-color-from-palette($themePalette, default);
+  color: mat.m2-get-color-from-palette($themePalette, default);
 }
 
 @mixin typography($theme) {
