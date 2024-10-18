@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CruiseSearchRequest } from './models/request';
 import * as Queries from './queries';
 import * as Operations from './operations';
-import { CruiseSearchResponse } from './models';
+import { CruiseSearchResponse, CruiseSort } from './models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -19,6 +19,8 @@ export class CruiseSearchService {
     startDate: string,
     count: number,
     skip: number,
+    sortBy: CruiseSort['by'],
+    sortOrder?: CruiseSort['order'],
     ship?: string,
     nights?: string
   ): Observable<CruiseSearchResponse> {
@@ -41,7 +43,8 @@ export class CruiseSearchService {
           skip,
         },
         sort: {
-          by: 'RECOMMENDED',
+          by: sortBy,
+          order: sortOrder,
         },
       },
     };
