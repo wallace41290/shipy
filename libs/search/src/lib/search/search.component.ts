@@ -24,6 +24,11 @@ import {
   Ship,
   deserializeShip,
   serializeShip,
+  SortOrder,
+  SortBy,
+  deserializeSortBy,
+  deserializeSortOrder,
+  coerceSortOrder,
 } from '@shipy/models';
 import { SearchFiltersComponent } from '@shipy/ui';
 import { getNextMonth } from '@shipy/utils';
@@ -35,8 +40,8 @@ import { FiltersResetComponent } from '../filters-reset/filters-reset.component'
 import { FiltersToggleComponent } from '../filters-toggle/filters-toggle.component';
 import { SearchResultsComponent } from '../search-results/search-results.component';
 import { PageEvent } from '@angular/material/paginator';
+import { Sort } from '@angular/material/sort';
 
-// TODO: sorting
 @Component({
   selector: 'shipy-search',
   standalone: true,
@@ -46,16 +51,14 @@ import { PageEvent } from '@angular/material/paginator';
   imports: [
     AsyncPipe,
     CommonModule,
-    MatButtonModule,
-    MatIconModule,
-
-    MatSidenavModule,
-
-    NgIf,
-    SearchFiltersComponent,
-    RouterModule,
     FiltersResetComponent,
     FiltersToggleComponent,
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule,
+    NgIf,
+    RouterModule,
+    SearchFiltersComponent,
     SearchResultsComponent,
   ],
 })
@@ -79,6 +82,8 @@ export class SearchComponent implements OnDestroy {
   $pageIndex = signal(0);
   $pageSize = signal(10);
   $results = signal<Cruise[]>([]);
+  $sortBy = signal<SortBy>('RECOMMENDED');
+  $sortOrder = signal<SortOrder | undefined>(undefined);
   $total = signal(0);
 
   private _mobileQueryListener: () => void;
@@ -101,12 +106,16 @@ export class SearchComponent implements OnDestroy {
         const dateRange = deserializeDateRange(searchParams.startDate);
         this.startDate = dateRange.start;
         this.endDate = dateRange.end;
+        this.$sortBy.set(deserializeSortBy(searchParams.sortBy));
+        this.$sortOrder.set(deserializeSortOrder(searchParams.sortOrder));
 
         this.search(
           searchParams.departurePort,
           searchParams.startDate,
           searchParams.count,
           searchParams.skip,
+          this.$sortBy(),
+          this.$sortOrder(),
           searchParams.ship,
           searchParams.nights
         );
@@ -139,17 +148,49 @@ export class SearchComponent implements OnDestroy {
     });
   }
 
+  sortChanged(sortState: Sort) {
+    if (SortBy.guard(sortState.active)) {
+      const sortOrder: SortOrder | undefined = coerceSortOrder(
+        sortState.direction
+      );
+
+      // If there is no active sort direction, default to the recommended order
+      const sortBy: SortBy = sortOrder ? sortState.active : 'RECOMMENDED';
+
+      const queryParams: Pick<SearchParams, 'sortBy' | 'sortOrder'> = {
+        sortBy,
+        sortOrder,
+      };
+      this._router.navigate([], {
+        relativeTo: this._route,
+        queryParams,
+        queryParamsHandling: 'merge',
+      });
+    }
+  }
+
   search(
     departurePort: string,
     startDate: string,
     count: number,
     skip: number,
+    sortBy: SortBy,
+    sortOrder?: SortOrder,
     ship?: string,
     nights?: string
   ) {
     this.$loading.set(true);
     this._cruiseSearchService
-      .search(departurePort, startDate, count, skip, ship, nights)
+      .search(
+        departurePort,
+        startDate,
+        count,
+        skip,
+        sortBy,
+        sortOrder,
+        ship,
+        nights
+      )
       .subscribe((response) => {
         this.$results.set(response.data.cruiseSearch.results.cruises);
         this.$total.set(response.data.cruiseSearch.results.total);
