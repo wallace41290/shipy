@@ -1,4 +1,4 @@
-import { Cruise } from "./cruise.model";
+import { Cruise } from './cruise.model';
 
 export interface Results {
   cruises: Cruise[];

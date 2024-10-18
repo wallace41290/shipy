@@ -1,1 +1,16 @@
-<router-outlet></router-outlet>
+<div class="app-container" [class.app-is-mobile]="mobileQuery.matches">
+  <mat-toolbar class="app-toolbar" color="primary">
+    <mat-icon aria-hidden class="shipy-icon">sailing</mat-icon>
+    <h1>Shipy</h1>
+    <span class="spacer"></span>
+    <a mat-stroked-button aria-label="Home" routerLink="home">
+      <mat-icon class="remove-margin-right">home</mat-icon>
+    </a>
+    <a mat-stroked-button aria-label="Search for cruises" routerLink="search">
+      <mat-icon>search</mat-icon>
+      Search
+    </a>
+    <shipy-theme-toggle></shipy-theme-toggle>
+  </mat-toolbar>
+  <router-outlet></router-outlet>
+</div>

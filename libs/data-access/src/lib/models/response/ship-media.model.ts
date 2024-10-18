@@ -1,9 +1,6 @@
-import { TentacledImage } from "./tentacled-image.model";
-
-
+import { TentacledImage } from './tentacled-image.model';
 
 export interface ShipMedia {
-    __typename: string;
-    images: TentacledImage[];
-
+  __typename: string;
+  images: TentacledImage[];
 }

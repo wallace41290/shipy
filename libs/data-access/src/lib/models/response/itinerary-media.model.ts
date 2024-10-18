@@ -1,9 +1,6 @@
-import { FluffyImage } from "./fluffy-image.model";
-
-
+import { FluffyImage } from './fluffy-image.model';
 
 export interface ItineraryMedia {
-    __typename: string;
-    images: FluffyImage[];
-
+  __typename: string;
+  images: FluffyImage[];
 }

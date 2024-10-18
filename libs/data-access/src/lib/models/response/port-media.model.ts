@@ -1,9 +1,6 @@
-import { PurpleImage } from "./purple-image.model";
-
-
+import { PurpleImage } from './purple-image.model';
 
 export interface PortMedia {
-    __typename: string;
-    images: PurpleImage[];
-
+  __typename: string;
+  images: PurpleImage[];
 }

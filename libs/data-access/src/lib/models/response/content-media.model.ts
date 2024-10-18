@@ -1,9 +1,6 @@
-import { StickyImage } from "./sticky-image.model";
-
-
+import { StickyImage } from './sticky-image.model';
 
 export interface ContentMedia {
-    __typename: string;
-    images: StickyImage[];
-
+  __typename: string;
+  images: StickyImage[];
 }

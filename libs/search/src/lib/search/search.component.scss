@@ -1,5 +1,37 @@
-table{
-    td,th{
-        padding:0 8px;
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav {
+  padding: 20px 24px;
+
+  .drawer-title {
+    display: flex;
+    align-items: center;
+    margin-top: 16px;
+    margin-bottom: 32px;
+    mat-icon {
+      margin-right: 16px;
     }
+    h2 {
+      margin-bottom: 0;
+    }
+  }
+
+  shipy-search-filters {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+shipy-filters-toggle {
+  display: block;
+  margin: 24px 0;
+}
+
+shipy-search-results {
+  display: block;
+  // 100vh - mat-toolbar - filter toggle
+  max-height: calc(100vh - 64px - 88px);
 }

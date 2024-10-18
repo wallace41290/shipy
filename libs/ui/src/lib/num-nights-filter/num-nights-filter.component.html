@@ -1,0 +1,13 @@
+<mat-form-field color="accent">
+  <mat-label>Number of Nights</mat-label>
+  <mat-select
+    multiple
+    [ngModel]="numberOfNights"
+    (ngModelChange)="numberOfNightsChange.emit($event)"
+  >
+    @for (num of _allNumberOfNights; track num) {
+    <mat-option [value]="num">{{ _numberOfNightsLabels[num] }}</mat-option>
+    }
+  </mat-select>
+  <mat-icon matSuffix>night_sight_max</mat-icon>
+</mat-form-field>

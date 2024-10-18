@@ -1,32 +1,53 @@
-
-<ng-container *ngIf="searchResponse$ | async as response">
-  <table>
-    <thead>
-      <tr>
-        <th>Ship</th>
-        <th># Nights</th>
-        <th>Sail Date</th>
-        <th>Stateroom</th>
-        <th>Avg. Price Per Person</th>
-        <th>Taxes</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let cruise of response.data.cruiseSearch.results.cruises">
-        <td>{{ cruise.masterSailing.itinerary.ship.name }}</td>
-        <td>{{ cruise.masterSailing.itinerary.sailingNights }}</td>
-        <td>{{ cruise.lowestPriceSailing.sailDate }}</td>
-        <td>
-          {{
-            cruise.lowestPriceSailing.lowestStateroomClassPrice.stateroomClass
-              .id
-          }}
-        </td>
-        <td>
-          ${{ cruise.lowestPriceSailing.lowestStateroomClassPrice.price.value }}
-        </td>
-        <td>${{ cruise.lowestPriceSailing.taxesAndFees.value }}</td>
-      </tr>
-    </tbody>
-  </table>
-</ng-container>
+<mat-sidenav-container
+  class="app-sidenav-container"
+  [style.marginTop.px]="mobileQuery.matches ? 56 : 0"
+>
+  <mat-sidenav
+    #sidenav
+    fixedTopGap="56"
+    opened
+    [fixedInViewport]="mobileQuery.matches"
+    [mode]="mobileQuery.matches ? 'over' : 'side'"
+  >
+    <shipy-filters-reset
+      [disableReset]="!$hasQueryParams()"
+      (closeSidenav)="sidenav.close()"
+    ></shipy-filters-reset>
+    <div class="drawer-title">
+      <mat-icon aria-hidden="true">tune</mat-icon>
+      <h2 class="mat-subtitle-2">Filters</h2>
+    </div>
+    <shipy-search-filters
+      [endDate]="endDate"
+      [numberOfNights]="selectedNumNights"
+      [ports]="selectedPorts"
+      [ships]="selectedShips"
+      [startDate]="startDate"
+      (endDateChange)="endDateChanged($event)"
+      (numberOfNightsChange)="updateNumberOfNights($event)"
+      (portsChange)="updatePort($event)"
+      (shipsChange)="updateShips($event)"
+      (startDateChange)="startDateChanged($event)"
+    ></shipy-search-filters>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="page-content">
+      <shipy-filters-toggle
+        [filtersOpen]="sidenav.opened"
+        (toggleFilters)="sidenav.toggle()"
+      ></shipy-filters-toggle>
+      <!-- TODO: handle sort -->
+      <shipy-search-results
+        [loading]="$loading()"
+        [pageIndex]="$pageIndex()"
+        [pageSize]="$pageSize()"
+        [results]="$results()"
+        [sortBy]="$sortBy()"
+        [sortOrder]="$sortOrder()"
+        [totalResults]="$total()"
+        (pageChanged)="pageChanged($event)"
+        (sortChanged)="sortChanged($event)"
+      ></shipy-search-results>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

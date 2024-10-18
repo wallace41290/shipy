@@ -1,0 +1,34 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+  $config: mat.get-color-config($theme);
+  $primary: map.get($config, primary);
+  $accent: map.get($config, accent);
+  .shipy-outline-button.mat-mdc-outlined-button:not([disabled]) {
+    &.mat-primary {
+      @include _shipy-outline-button-palette($primary);
+    }
+    &.mat-accent {
+      @include _shipy-outline-button-palette($accent);
+    }
+  }
+}
+
+@mixin _shipy-outline-button-palette($themePalette) {
+  border-color: mat.get-color-from-palette($themePalette, default);
+  color: mat.get-color-from-palette($themePalette, default);
+}
+
+@mixin typography($theme) {
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
+  }
+}

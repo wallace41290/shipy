@@ -1,0 +1,20 @@
+<mat-form-field color="accent">
+  <mat-label>Enter a date range</mat-label>
+  <mat-date-range-input [rangePicker]="picker">
+    <input
+      matStartDate
+      placeholder="Start date"
+      [ngModel]="startDate"
+      (ngModelChange)="startDateChange.emit($event)"
+    />
+    <input
+      matEndDate
+      placeholder="End date"
+      [ngModel]="endDate"
+      (ngModelChange)="endDateChange.emit($event)"
+    />
+  </mat-date-range-input>
+  <mat-hint>MM/DD/YYYY - MM/DD/YYYY</mat-hint>
+  <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker #picker startView="month"></mat-date-range-picker>
+</mat-form-field>

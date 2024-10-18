@@ -1,3 +1,4 @@
 export interface CruiseSort {
-    by:string;
+  by: 'PRICE' | 'NIGHTS' | 'RECOMMENDED';
+  order?: 'ASC' | 'DESC';
 }

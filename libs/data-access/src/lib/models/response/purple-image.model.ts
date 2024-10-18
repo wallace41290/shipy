@@ -1,7 +1,4 @@
-
-
 export interface PurpleImage {
-    __typename: string;
-    path: string;
-
+  __typename: string;
+  path: string;
 }

@@ -1,0 +1,17 @@
+<mat-form-field color="accent">
+  <mat-label>Ship(s)</mat-label>
+  <mat-select
+    multiple
+    [ngModel]="ships"
+    (ngModelChange)="shipsChange.emit($event)"
+  >
+    @for(class of _allShipClasses; track class){
+    <mat-optgroup [label]="class.label">
+      @for (ship of class.ships; track ship) {
+      <mat-option [value]="ship">{{ _shipLabels[ship] }}</mat-option>
+      }
+    </mat-optgroup>
+    }
+  </mat-select>
+  <mat-icon matSuffix>directions_boat</mat-icon>
+</mat-form-field>

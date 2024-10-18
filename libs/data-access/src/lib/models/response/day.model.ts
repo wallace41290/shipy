@@ -1,11 +1,8 @@
-import { PortElement } from "./port-element.model";
+import { PortElement } from './port-element.model';
 
 export interface Day {
-    __typename: string;
-    number: number;
-    ports: PortElement[];
-    type: string;
+  __typename: string;
+  number: number;
+  ports: PortElement[];
+  type: string;
 }
-
-
-

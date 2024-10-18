@@ -13,5 +13,10 @@
     "jest.config.ts",
     "src/**/*.test.ts"
   ],
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "../models/src/lib/ports.ts",
+    "../models/src/lib/search-params.model.ts",
+    "../models/src/lib/search-utils.ts"
+  ]
 }
