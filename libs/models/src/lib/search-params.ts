@@ -6,6 +6,10 @@ export interface SearchParams {
   /** In the format like AN,RD */
   ship?: string;
   skip: number;
+  /** RECOMMENDED, PRICE, NIGHTS */
+  sortBy: string;
+  /** ASC or DESC */
+  sortOrder?: string;
   /** In the range like 2024-10-01~2024-10-31 */
   startDate: string;
 }

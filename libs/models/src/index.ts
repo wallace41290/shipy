@@ -4,3 +4,5 @@ export * from './lib/ports';
 export * from './lib/search-params';
 export * from './lib/search-utils';
 export * from './lib/ships';
+export * from './lib/sort-by';
+export * from './lib/sort-order';

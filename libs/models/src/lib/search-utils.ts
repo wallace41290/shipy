@@ -5,6 +5,60 @@ import { SearchParams } from './search-params';
 import { DateRange } from './date-range';
 import { NumberOfNights } from './number-of-nights';
 import { Ship } from './ships';
+import { SortBy } from './sort-by';
+import { SortOrder } from './sort-order';
+import { SortDirection } from '@angular/material/sort';
+
+/**
+ * Coerces a value to a valid SortDirection string.
+ *
+ * If the value is a SortOrder value, it will be converted to the corresponding
+ * SortDirection string. If the value is already a valid SortDirection string, it will
+ * be returned as is. Otherwise, an empty string will be returned.
+ *
+ * @param value The value to coerce.
+ * @returns A valid SortDirection string, or an empty string if the input value is invalid.
+ */
+export function coerceSortDirection(value: unknown): SortDirection {
+  // Handle if it's a SortOrder value
+  if (SortOrder.guard(value)) {
+    switch (value) {
+      case 'ASC':
+        return 'asc';
+      case 'DESC':
+        return 'desc';
+      default:
+        return '';
+    }
+  }
+
+  // If it's already a valid SortDirection value
+  if (value === 'asc' || value === 'desc' || value === '') {
+    return value;
+  }
+
+  return '';
+}
+
+/**
+ * Coerces a value to a SortOrder if it matches the guard or is undefined.
+ * Handles Material SortDirection being lowercase.
+ *
+ * @param value the value to coerce
+ * @returns the coerced value or undefined if it's not a string or doesn't match the guard
+ */
+export function coerceSortOrder(value: unknown): SortOrder | undefined {
+  if (!value || typeof value !== 'string') {
+    return undefined;
+  }
+  // Handles SortDirection from Material being lowercase
+  const uppercaseValue = value.toUpperCase();
+  if (SortOrder.guard(uppercaseValue)) {
+    return uppercaseValue;
+  }
+
+  return undefined;
+}
 
 /**
  * Deserialize angular router query parameters into a search param object.
@@ -26,6 +80,9 @@ export function deserializeSearchParams(
     ship: paramMap.get('ship') || undefined,
     // Skip
     skip: Number(paramMap.get('skip') ?? 0),
+    // Sort
+    sortBy: paramMap.get('sortBy') ?? 'RECOMMENDED',
+    sortOrder: paramMap.get('sortOrder') || undefined,
   };
 }
 
@@ -68,6 +125,22 @@ export function deserializePorts(paramValue: string): Port[] {
     }
   }
   return ports;
+}
+
+export function deserializeSortBy(paramValue: string): SortBy {
+  if (SortBy.guard(paramValue)) {
+    return paramValue;
+  }
+  return 'RECOMMENDED';
+}
+
+export function deserializeSortOrder(
+  paramValue: string | undefined
+): SortOrder | undefined {
+  if (SortOrder.guard(paramValue)) {
+    return paramValue;
+  }
+  return undefined;
 }
 
 export function serializeNumberOfNights(
