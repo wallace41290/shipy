@@ -9,11 +9,11 @@
 html {
   @include mat.all-component-themes(m3-theme.$light-theme);
   @include appTheme.theme(m3-theme.$light-theme);
-  @include search.search-results-color(m3-theme.$light-theme);
+  @include search.theme(m3-theme.$light-theme);
 
   .dark-theme {
     @include mat.all-component-colors(m3-theme.$dark-theme);
     @include appTheme.theme(m3-theme.$dark-theme);
-    @include search.search-results-color(m3-theme.$dark-theme);
+    @include search.theme(m3-theme.$dark-theme);
   }
 }

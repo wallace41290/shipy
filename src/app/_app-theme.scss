@@ -47,7 +47,7 @@
 
 @mixin typography($theme) {
   .app-toolbar h1 {
-    font-weight: 700; // FIXME: idk how to pull out the weight from typography
+    font-weight: 700;
   }
 }
 

@@ -1,0 +1,25 @@
+@use 'sass:map';
+@use '@angular/material' as mat;
+
+@mixin color($theme) {
+}
+
+@mixin typography($theme) {
+  shipy-search {
+    .drawer-title h2 {
+      font: mat.get-theme-typography($theme, headline-small, font);
+      font-size: mat.get-theme-typography($theme, title-medium, font-size);
+      font-weight: 600;
+    }
+  }
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
+  }
+}

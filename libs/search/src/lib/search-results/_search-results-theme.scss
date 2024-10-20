@@ -1,10 +1,23 @@
 @use 'sass:map';
 @use '@angular/material' as mat;
 
+@mixin typography($theme) {
+}
+
 @mixin color($theme) {
   shipy-search-results {
     .loading-shade {
       background: rgba(0, 0, 0, 0.15);
     }
+  }
+}
+
+@mixin theme($theme) {
+  @if mat.theme-has($theme, color) {
+    @include color($theme);
+  }
+
+  @if mat.theme-has($theme, typography) {
+    @include typography($theme);
   }
 }

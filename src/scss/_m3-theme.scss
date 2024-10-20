@@ -143,10 +143,10 @@ $light-theme: mat.define-theme(
       tertiary: $_tertiary,
     ),
     typography: (
-      brand-family: '"Inknut Antiqua", serif',
-      plain-family: '"Source Sans 3", sans-serif',
+      brand-family: 'Inknut Antiqua',
+      plain-family: 'Source Sans 3',
       bold-weight: 700,
-      medium-weight: 500,
+      medium-weight: 600,
       regular-weight: 400,
     ),
   )

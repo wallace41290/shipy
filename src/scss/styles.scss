@@ -6,7 +6,6 @@ body {
 
 body {
   margin: 0;
-  /*font-family: 'Source Sans 3', sans-serif;*/
 }
 
 router-outlet + *:has(.app-sidenav-container) {
