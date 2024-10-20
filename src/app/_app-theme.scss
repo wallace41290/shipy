@@ -4,9 +4,51 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme) {
+  // Primary Toolbar
+  .mat-toolbar {
+    --mat-toolbar-container-background-color: #{mat.get-theme-color(
+        $theme,
+        primary
+      )};
+    --mat-toolbar-container-text-color: #{mat.get-theme-color(
+        $theme,
+        on-primary
+      )};
+    --mat-icon-color: #{mat.get-theme-color($theme, on-primary)};
+    --mdc-outlined-button-outline-color: #{mat.get-theme-color(
+        $theme,
+        on-primary
+      )};
+    @if mat.get-theme-type($theme) == dark {
+      --mat-outlined-button-state-layer-color: #{mat.get-theme-color(
+          $theme,
+          primary,
+          10
+        )};
+      --mat-icon-button-state-layer-color: #{mat.get-theme-color(
+          $theme,
+          primary,
+          10
+        )};
+    } @else {
+      --mat-outlined-button-state-layer-color: #{mat.get-theme-color(
+          $theme,
+          primary,
+          95
+        )};
+      --mat-icon-button-state-layer-color: #{mat.get-theme-color(
+          $theme,
+          primary,
+          95
+        )};
+    }
+  }
 }
 
 @mixin typography($theme) {
+  .app-toolbar h1 {
+    font-weight: 700; // FIXME: idk how to pull out the weight from typography
+  }
 }
 
 @mixin theme($theme) {
