@@ -6,7 +6,7 @@ body {
 
 body {
   margin: 0;
-  font-family: 'Source Sans 3', sans-serif;
+  /*font-family: 'Source Sans 3', sans-serif;*/
 }
 
 router-outlet + *:has(.app-sidenav-container) {
@@ -19,13 +19,6 @@ router-outlet + *:has(.app-sidenav-container) {
    `<body>` to be our scrolling element for mobile layouts. */
 .app-is-mobile router-outlet + *:has(.app-sidenav-container) {
   flex: 1 0 auto;
-}
-
-.shipy-rounded-button.mat-mdc-outlined-button,
-.shipy-rounded-button.mat-mdc-unelevated-button {
-  border-radius: 50px;
-  height: 40px;
-  padding: 0 24px 0 16px;
 }
 
 .page-content {

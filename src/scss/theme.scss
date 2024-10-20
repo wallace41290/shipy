@@ -1,44 +1,19 @@
 @use '@angular/material' as mat;
-@use './palette';
-@use './typography';
+@use './m3-theme';
 @use '../app/app-theme' as appTheme;
 @use '../../libs/search/src/index' as search;
 
 @include mat.core();
+@include mat.typography-hierarchy(m3-theme.$light-theme);
 
-$app-primary: mat.m2-define-palette(palette.$primary);
-$app-accent: mat.m2-define-palette(palette.$accent);
-$app-warn: mat.m2-define-palette(palette.$warn);
+html {
+  @include mat.all-component-themes(m3-theme.$light-theme);
+  @include appTheme.theme(m3-theme.$light-theme);
+  @include search.search-results-color(m3-theme.$light-theme);
 
-$light-theme: mat.m2-define-light-theme(
-  (
-    color: (
-      primary: $app-primary,
-      accent: $app-accent,
-      warn: $app-warn,
-    ),
-    typography: typography.$config,
-  )
-);
-
-$dark-theme: mat.m2-define-dark-theme(
-  (
-    color: (
-      primary: $app-primary,
-      accent: $app-accent,
-      warn: $app-warn,
-    ),
-    typography: typography.$config,
-  )
-);
-
-@include mat.typography-hierarchy(typography.$config);
-@include mat.all-component-themes($light-theme);
-@include appTheme.theme($light-theme);
-@include search.search-results-color($light-theme);
-
-.dark-theme {
-  @include mat.all-component-colors($dark-theme);
-  @include appTheme.theme($dark-theme);
-  @include search.search-results-color($dark-theme);
+  .dark-theme {
+    @include mat.all-component-colors(m3-theme.$dark-theme);
+    @include appTheme.theme(m3-theme.$dark-theme);
+    @include search.search-results-color(m3-theme.$dark-theme);
+  }
 }

@@ -1,17 +1,11 @@
 @if(filtersOpen){
-<button
-  class="shipy-rounded-button"
-  color="primary"
-  mat-flat-button
-  (click)="toggleFilters.emit()"
->
+<button mat-flat-button (click)="toggleFilters.emit()">
   <mat-icon>close</mat-icon>
   Filters
 </button>
 }@else {
 <button
-  class="shipy-rounded-button shipy-outline-button"
-  color="primary"
+  class="shipy-outline-button"
   mat-stroked-button
   (click)="toggleFilters.emit()"
 >
