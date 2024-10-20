@@ -10,7 +10,7 @@
     [mode]="mobileQuery.matches ? 'over' : 'side'"
   >
     <shipy-filters-reset
-      [disableReset]="!$hasQueryParams()"
+      [disableReset]="!$hasFiltersApplied()"
       (closeSidenav)="sidenav.close()"
     ></shipy-filters-reset>
     <div class="drawer-title">
