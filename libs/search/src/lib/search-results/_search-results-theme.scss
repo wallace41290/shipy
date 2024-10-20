@@ -2,6 +2,18 @@
 @use '@angular/material' as mat;
 
 @mixin typography($theme) {
+  shipy-search-results {
+    --mat-table-header-headline-font: #{mat.get-theme-typography(
+        $theme,
+        display-large,
+        font-family
+      )};
+    --mat-table-header-headline-size: #{mat.get-theme-typography(
+        $theme,
+        label-medium,
+        font-size
+      )};
+  }
 }
 
 @mixin color($theme) {
