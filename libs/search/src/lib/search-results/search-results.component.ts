@@ -12,6 +12,7 @@ import {
   Input,
   Output,
 } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSortModule, Sort } from '@angular/material/sort';
@@ -21,12 +22,15 @@ import { Cruise } from '@shipy/data-access';
 import { SortBy, SortOrder } from '@shipy/models';
 
 import { ToSortDirectionPipe } from '../to-sort-direction';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'shipy-search-results',
   standalone: true,
   imports: [
     CommonModule,
+    MatButtonModule,
+    MatIconModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatSortModule,
@@ -89,7 +93,8 @@ export class SearchResultsComponent {
     'sailDate',
     'stateroom',
     'avgPrice',
-    'taxes',
+    // 'taxes',
+    'external-link',
   ];
 
   sort(sortState: Sort) {

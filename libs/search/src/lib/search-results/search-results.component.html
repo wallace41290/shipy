@@ -73,6 +73,23 @@
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="external-link">
+        <th mat-header-cell *matHeaderCellDef>
+          <mat-icon>link</mat-icon>
+        </th>
+        <td mat-cell *matCellDef="let cruise">
+          <a
+            aria-label="Open in new tab"
+            mat-icon-button
+            rel="noopener noreferrer"
+            target="_blank"
+            [href]="'https://www.royalcaribbean.com/' + cruise.productViewLink"
+          >
+            <mat-icon>open_in_new</mat-icon>
+          </a>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
