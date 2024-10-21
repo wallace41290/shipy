@@ -4,6 +4,21 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme) {
+  // Side-nav
+  @if mat.get-theme-type($theme) == dark {
+    --mat-sidenav-container-background-color: #{mat.get-theme-color(
+        $theme,
+        neutral,
+        10
+      )};
+  } @else {
+    --mat-sidenav-container-background-color: #{mat.get-theme-color(
+        $theme,
+        secondary,
+        80
+      )};
+  }
+
   // Primary Toolbar
   .mat-toolbar {
     --mat-toolbar-container-background-color: #{mat.get-theme-color(
