@@ -1,1 +1,7 @@
-@forward './lib/search-results/search-results-theme' as search-results-*;
+@use './lib/search/search-theme' as search-theme;
+@use './lib/search-results/search-results-theme' as search-results-theme;
+
+@mixin theme($theme) {
+  @include search-theme.theme($theme);
+  @include search-results-theme.theme($theme);
+}

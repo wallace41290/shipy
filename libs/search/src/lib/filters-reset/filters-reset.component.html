@@ -1,14 +1,9 @@
 <section class="drawer-reset">
-  <a color="primary" mat-button routerLink="./" [disabled]="disableReset">
+  <a mat-button routerLink="./" [disabled]="disableReset">
     <mat-icon>refresh</mat-icon>
     Reset All
   </a>
-  <button
-    color="primary"
-    mat-icon-button
-    matTooltip="Close"
-    (click)="closeSidenav.emit()"
-  >
+  <button mat-icon-button matTooltip="Close" (click)="closeSidenav.emit()">
     <mat-icon>close</mat-icon>
   </button>
 </section>

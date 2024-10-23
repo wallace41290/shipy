@@ -77,7 +77,7 @@ export class SearchComponent implements OnDestroy {
   selectedShips: Ship[] = [];
   startDate = new Date();
 
-  $hasQueryParams = signal(false);
+  $hasFiltersApplied = signal(false);
   $loading = signal(true);
   $pageIndex = signal(0);
   $pageSize = signal(10);
@@ -94,7 +94,17 @@ export class SearchComponent implements OnDestroy {
     this._route.queryParams
       .pipe(takeUntilDestroyed())
       .subscribe((params: Params) => {
-        this.$hasQueryParams.set(!!Object.keys(params).length);
+        this.$hasFiltersApplied.set(
+          // Determine if any of the query params related to filtering are set
+          !!Object.keys(params).some(
+            (key) =>
+              key === 'nights' ||
+              key === 'departurePort' ||
+              key === 'ship' ||
+              key === 'startDate' ||
+              key === 'endDate'
+          )
+        );
 
         // Sync Form Fields
         const searchParams = deserializeSearchParams(params);

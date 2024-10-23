@@ -22,8 +22,9 @@
   flex: 1 1 auto;
 }
 
-.remove-margin-right {
-  margin-right: 0;
+.remove-margin,
+.mat-icon.remove-margin {
+  margin: 0;
 }
 
 a[mat-stroked-button] {

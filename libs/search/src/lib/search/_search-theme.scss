@@ -2,12 +2,16 @@
 @use '@angular/material' as mat;
 
 @mixin color($theme) {
-  .shipy-outline-button.mat-mdc-outlined-button:not(:disabled) {
-    border-color: mat.get-theme-color($theme, primary);
-  }
 }
 
 @mixin typography($theme) {
+  shipy-search {
+    .drawer-title h2 {
+      font: mat.get-theme-typography($theme, headline-small, font);
+      font-size: mat.get-theme-typography($theme, title-medium, font-size);
+      font-weight: 600;
+    }
+  }
 }
 
 @mixin theme($theme) {
