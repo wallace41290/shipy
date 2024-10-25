@@ -26,7 +26,6 @@
       },
       "configurations": {
         "production": {
-          "baseHref": "/shipy/",
           "budgets": [
             {
               "type": "initial",
