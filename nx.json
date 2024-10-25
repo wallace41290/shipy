@@ -59,7 +59,6 @@
     }
   },
   "defaultProject": "shipy",
-  "nxCloudAccessToken": "ZWUyNTgwZmUtODM4Mi00NjI1LTljNTQtMGIzOTBiNGM2MzYyfHJlYWQtd3JpdGU=",
   "useInferencePlugins": false,
   "useLegacyCache": true
 }
