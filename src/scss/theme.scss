@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use './app-mat-themes';
 @use './m3-theme';
 @use '../app/app-theme' as appTheme;
 @use '../../libs/search/src/index' as search;
@@ -7,12 +8,12 @@
 @include mat.typography-hierarchy(m3-theme.$light-theme);
 
 html {
-  @include mat.all-component-themes(m3-theme.$light-theme);
+  @include app-mat-themes.themes(m3-theme.$light-theme);
   @include appTheme.theme(m3-theme.$light-theme);
   @include search.theme(m3-theme.$light-theme);
 
   .dark-theme {
-    @include mat.all-component-colors(m3-theme.$dark-theme);
+    @include app-mat-themes.colors(m3-theme.$dark-theme);
     @include appTheme.theme(m3-theme.$dark-theme);
     @include search.theme(m3-theme.$dark-theme);
   }
