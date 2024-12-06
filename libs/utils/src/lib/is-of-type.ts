@@ -22,5 +22,8 @@ import { isPresent } from './is-present';
  * }
  */
 export function isOfType<T>(t: unknown, ...props: Array<keyof T>): t is T {
-  return isObject(t) && props.some((prop) => prop in t && isPresent(t[prop as keyof object]));
+  return (
+    isObject(t) &&
+    props.some((prop) => prop in t && isPresent(t[prop as keyof object]))
+  );
 }

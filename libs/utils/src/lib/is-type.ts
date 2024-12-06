@@ -29,5 +29,8 @@ import { isPresent } from './is-present';
  */
 export function isType<T>(t: unknown, ...props: Array<keyof T>): t is T {
   // eslint-disable-next-line @typescript-eslint/ban-types
-  return isObject(t) && props.every((prop) => prop in t && isPresent(t[prop as keyof object]));
+  return (
+    isObject(t) &&
+    props.every((prop) => prop in t && isPresent(t[prop as keyof object]))
+  );
 }

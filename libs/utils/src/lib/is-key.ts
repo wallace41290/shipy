@@ -5,6 +5,9 @@
  * @returns whether a string is a property of an object
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-export function isKey<T extends object | null | undefined>(obj: T, k: string): k is string & keyof T {
+export function isKey<T extends object | null | undefined>(
+  obj: T,
+  k: string
+): k is string & keyof T {
   return !!obj && !!k && k in obj;
 }
