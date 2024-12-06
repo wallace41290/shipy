@@ -1,4 +1,6 @@
 import { convertToParamMap, ParamMap, Params } from '@angular/router';
+import { SortDirection } from '@angular/material/sort';
+import { getNextMonth } from '@shipy/utils';
 
 import { Port } from './ports';
 import { SearchParams } from './search-params';
@@ -7,7 +9,6 @@ import { NumberOfNights } from './number-of-nights';
 import { Ship } from './ships';
 import { SortBy } from './sort-by';
 import { SortOrder } from './sort-order';
-import { SortDirection } from '@angular/material/sort';
 
 /**
  * Coerces a value to a valid SortDirection string.
@@ -73,7 +74,9 @@ export function deserializeSearchParams(
     // Number of Nights
     nights: paramMap.get('nights') || undefined,
     // Start Date
-    startDate: paramMap.get('startDate') ?? '2024-10-01~2024-10-31',
+    startDate:
+      paramMap.get('startDate') ??
+      serializeDateRange({ start: new Date(), end: getNextMonth() }),
     // Count
     count: Number(paramMap.get('count') ?? 10),
     // Ship
